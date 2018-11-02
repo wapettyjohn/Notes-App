@@ -10472,3 +10472,53 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+div.app {
+  height: 100vh;
+}
+
+nav.navbar {
+  position: relative;
+  z-index: 1;
+}
+
+main.main {
+  height: 100%;
+  position: relative;
+  top: -61px;
+  padding-top: 61px;
+}
+
+div.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+div.left-col {
+  width: 38%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+div.left-col div.notes div.card {
+  padding: 0;
+}
+
+div.right-col {
+  width: 62%;
+  height: 100%;
+}
+
+div.right-col form {
+  height: 100%;
+}
+
+div.right-col form div.note-form-group {
+  height: 81%;
+}
+
+div.right-col form .row {
+  margin: 0;
+}
+
