@@ -1,30 +1,57 @@
 <template>
-  <div>
-    <h2>Notes</h2>
-    
-    <form @submit.prevent="addNote" class="mb-3">
-      <div class="form-group">
-        <textarea class="form-control" placeholder="Note" v-model="note.note"></textarea>
-      </div>
+  <div class="wrapper">
+    <div class="left-col">
+      <div class="notes container">
+        <div 
+          class="card card-body" 
+          v-for="note in notes" 
+          v-bind:key="note.id">
+          <span class="card-text">{{ note.updated_at['date'] }}</span>
 
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Color" v-model="note.color">
-      </div>
-
-      <button type="submit" class="btn btn-light btn-block">Save</button>
-    </form>
-    
-    <button @click="clearForm()" class="btn btn-danger btn-block">Cancel</button>
-    
-    <div class="card card-body mb-2" v-for="note in notes" v-bind:key="note.id">
-      <p>{{ note.note }}</p>
-      
-      <hr>
-      
-      <button @click="editNote(note)" class="btn btn-warning mb-2">Edit</button>
-      
-      <button @click="deleteNote(note.id)" class="btn btn-danger">Delete</button>
+          <button @click="editNote(note)" class="btn btn-outline-secondary">Edit</button>
+          <button @click="deleteNote(note.id)" class="btn btn-primary">Delete</button>
+        </div> <!-- .card -->
+      </div> <!-- .notes -->
     </div>
+
+    <div class="right-col">
+      <form @submit.prevent="addNote" class="form container">
+        <div class="form-group note-form-group row">
+          <textarea 
+            class="form-control" 
+            placeholder="Note" 
+            v-model="note.note"
+            v-bind:class="{
+            'alert-light': (note.color === 'light'),
+            'alert-dark': (note.color === 'dark'),
+            'alert-warning': (note.color === 'warning'),
+            'alert-info': (note.color === 'info'),
+            'alert-success': (note.color === 'success'),
+            'alert-primary': (note.color === 'primary'),
+            'alert-secondary': (note.color === 'secondary'),
+            'alert-danger': (note.color === 'danger'),
+          }" >
+          </textarea>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputColor">Color</label>
+          <select id="inputColor" class="form-control" v-model="note.color">
+            <option value="secondary">Gray</option>
+            <option value="dark">Black</option>
+            <option value="light">White</option>
+            <option value="primary">Red</option>
+            <option value="danger">Orange</option>
+            <option value="warning">Yellow</option>
+            <option value="success">Green</option>
+            <option value="info">Blue</option>
+          </select>
+        
+          <button type="submit" class="btn btn-outline-secondary">Save</button>
+          <button @click="clearForm()" class="btn btn-primary">Cancel</button>
+        </div>
+      </form>
+     </div> 
   </div>
 </template>
 
@@ -34,10 +61,11 @@ export default {
     return {
       notes: [],
       note: {
-        id:    '',
-        note:  '',
+        id: '',
+        note: '',
         color: '',
-        user_id: window.Laravel.userId
+        user_id: window.Laravel.userId,
+        updated_at: ''
       },
       note_id: '',
       //pagination: {},

@@ -47372,6 +47372,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -47381,7 +47408,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         id: '',
         note: '',
         color: '',
-        user_id: window.Laravel.userId
+        user_id: window.Laravel.userId,
+        updated_at: ''
       },
       note_id: '',
       //pagination: {},
@@ -47483,15 +47511,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h2", [_vm._v("Notes")]),
-      _vm._v(" "),
+  return _c("div", { staticClass: "wrapper" }, [
+    _c("div", { staticClass: "left-col" }, [
+      _c(
+        "div",
+        { staticClass: "notes container" },
+        _vm._l(_vm.notes, function(note) {
+          return _c("div", { key: note.id, staticClass: "card card-body" }, [
+            _c("span", { staticClass: "card-text" }, [
+              _vm._v(_vm._s(note.updated_at["date"]))
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: {
+                  click: function($event) {
+                    _vm.editNote(note)
+                  }
+                }
+              },
+              [_vm._v("Edit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    _vm.deleteNote(note.id)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            )
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "right-col" }, [
       _c(
         "form",
         {
-          staticClass: "mb-3",
+          staticClass: "form container",
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -47500,7 +47565,7 @@ var render = function() {
           }
         },
         [
-          _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "form-group note-form-group row" }, [
             _c("textarea", {
               directives: [
                 {
@@ -47511,6 +47576,16 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
+              class: {
+                "alert-light": _vm.note.color === "light",
+                "alert-dark": _vm.note.color === "dark",
+                "alert-warning": _vm.note.color === "warning",
+                "alert-info": _vm.note.color === "info",
+                "alert-success": _vm.note.color === "success",
+                "alert-primary": _vm.note.color === "primary",
+                "alert-secondary": _vm.note.color === "secondary",
+                "alert-danger": _vm.note.color === "danger"
+              },
               attrs: { placeholder: "Note" },
               domProps: { value: _vm.note.note },
               on: {
@@ -47524,90 +47599,93 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.note.color,
-                  expression: "note.color"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Color" },
-              domProps: { value: _vm.note.color },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+          _c("div", { staticClass: "form-group row" }, [
+            _c("label", { attrs: { for: "inputColor" } }, [_vm._v("Color")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.note.color,
+                    expression: "note.color"
                   }
-                  _vm.$set(_vm.note, "color", $event.target.value)
+                ],
+                staticClass: "form-control",
+                attrs: { id: "inputColor" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.note,
+                      "color",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-light btn-block",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("Save")]
-          )
+              },
+              [
+                _c("option", { attrs: { value: "secondary" } }, [
+                  _vm._v("Gray")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "dark" } }, [_vm._v("Black")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "light" } }, [_vm._v("White")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "primary" } }, [_vm._v("Red")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "danger" } }, [
+                  _vm._v("Orange")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "warning" } }, [
+                  _vm._v("Yellow")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "success" } }, [
+                  _vm._v("Green")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "info" } }, [_vm._v("Blue")])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Save")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    _vm.clearForm()
+                  }
+                }
+              },
+              [_vm._v("Cancel")]
+            )
+          ])
         ]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger btn-block",
-          on: {
-            click: function($event) {
-              _vm.clearForm()
-            }
-          }
-        },
-        [_vm._v("Cancel")]
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.notes, function(note) {
-        return _c("div", { key: note.id, staticClass: "card card-body mb-2" }, [
-          _c("p", [_vm._v(_vm._s(note.note))]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-warning mb-2",
-              on: {
-                click: function($event) {
-                  _vm.editNote(note)
-                }
-              }
-            },
-            [_vm._v("Edit")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-danger",
-              on: {
-                click: function($event) {
-                  _vm.deleteNote(note.id)
-                }
-              }
-            },
-            [_vm._v("Delete")]
-          )
-        ])
-      })
-    ],
-    2
-  )
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
