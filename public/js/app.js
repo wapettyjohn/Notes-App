@@ -13903,7 +13903,7 @@ window.Vue = __webpack_require__(36);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('notes', __webpack_require__(48));
+Vue.component('notes', __webpack_require__(39));
 
 var app = new Vue({
   el: '#app'
@@ -47181,7 +47181,53 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(6)))
 
 /***/ }),
-/* 39 */,
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(40)
+/* script */
+var __vue_script__ = __webpack_require__(41)
+/* template */
+var __vue_template__ = __webpack_require__(42)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Notes.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3d897ee6", Component.options)
+  } else {
+    hotAPI.reload("data-v-3d897ee6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 40 */
 /***/ (function(module, exports) {
 
@@ -47291,71 +47337,11 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 41 */,
-/* 42 */,
-/* 43 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(40)
-/* script */
-var __vue_script__ = __webpack_require__(49)
-/* template */
-var __vue_template__ = __webpack_require__(50)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Notes.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3d897ee6", Component.options)
-  } else {
-    hotAPI.reload("data-v-3d897ee6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 49 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -47394,10 +47380,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       note: {
         id: '',
         note: '',
-        color: ''
+        color: '',
+        user_id: window.Laravel.userId
       },
       note_id: '',
-      pagination: {},
+      //pagination: {},
       edit: false
     };
   },
@@ -47410,37 +47397,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchNotes: function fetchNotes(page_url) {
       var _this = this;
 
-      var vm = this;
       page_url = page_url || '/api/notes';
-      fetch(page_url).then(function (res) {
-        return res.json();
+      axios.get(page_url).then(function (res) {
+        return res.data;
       }).then(function (res) {
         _this.notes = res.data;
-        vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
       });
-    },
-    makePagination: function makePagination(meta, links) {
-      var pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev
-      };
-
-      this.pagination = pagination;
     },
     deleteNote: function deleteNote(id) {
       var _this2 = this;
 
       if (confirm('Are You Sure?')) {
-        fetch('api/note/' + id, {
-          method: 'delete'
-        }).then(function (res) {
-          return res.json();
+        axios.delete('api/note/' + id)
+        //.then(res => res.json())
+        .then(function (res) {
+          return res.data;
         }).then(function (data) {
-          alert('Note Removed');
           _this2.fetchNotes();
         }).catch(function (err) {
           return console.log(err);
@@ -47451,35 +47425,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this3 = this;
 
       if (this.edit === false) {
-        // Add
-        fetch('api/note', {
+        axios({
           method: 'post',
-          body: JSON.stringify(this.note),
+          url: 'api/note',
+          data: JSON.stringify(this.note),
           headers: {
-            'content-type': 'application/json'
+            'Content-Type': 'application/json'
           }
         }).then(function (res) {
-          return res.json();
+          return res.data;
         }).then(function (data) {
           _this3.clearForm();
-          alert('Note Added');
           _this3.fetchNotes();
         }).catch(function (err) {
           return console.log(err);
         });
       } else {
-        // Update
-        fetch('api/note', {
+        axios({
           method: 'put',
-          body: JSON.stringify(this.note),
+          url: 'api/note',
+          data: JSON.stringify(this.note),
           headers: {
-            'content-type': 'application/json'
+            'Content-Type': 'application/json'
           }
         }).then(function (res) {
-          return res.json();
+          return res.data;
         }).then(function (data) {
           _this3.clearForm();
-          alert('Note Updated');
           _this3.fetchNotes();
         }).catch(function (err) {
           return console.log(err);
@@ -47504,7 +47476,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 50 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47600,71 +47572,6 @@ var render = function() {
         [_vm._v("Cancel")]
       ),
       _vm._v(" "),
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c(
-            "li",
-            {
-              staticClass: "page-item",
-              class: [{ disabled: !_vm.pagination.prev_page_url }]
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "page-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.fetchNotes(_vm.pagination.prev_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Previous")]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item disabled" }, [
-            _c(
-              "a",
-              { staticClass: "page-link text-dark", attrs: { href: "#" } },
-              [
-                _vm._v(
-                  "Page " +
-                    _vm._s(_vm.pagination.current_page) +
-                    " of " +
-                    _vm._s(_vm.pagination.last_page)
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "page-item",
-              class: [{ disabled: !_vm.pagination.next_page_url }]
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "page-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.fetchNotes(_vm.pagination.next_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Next")]
-              )
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _vm._l(_vm.notes, function(note) {
         return _c("div", { key: note.id, staticClass: "card card-body mb-2" }, [
           _c("p", [_vm._v(_vm._s(note.note))]),
@@ -47711,6 +47618,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-3d897ee6", module.exports)
   }
 }
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

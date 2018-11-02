@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Note;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Note as NoteResource;
 
 class NoteController extends Controller
@@ -14,10 +15,10 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notes = Note::orderBy('created_at', 'desc')->paginate(5);
-
+        $notes = Note::where('user_id', $request->user()->id)->orderBy('updated_at', 'desc')->get();
+        
         return NoteResource::collection($notes);
     }
 
@@ -32,9 +33,10 @@ class NoteController extends Controller
     {
         $note = $request->isMethod('put') ? Note::findOrFail($request->note_id) : new Note;
 
-        $note->id    = $request->input('note_id');
-        $note->note  = $request->input('note');
-        $note->color = $request->input('color');
+        $note->id      = $request->note_id;
+        $note->note    = $request->note;
+        $note->color   = $request->color;
+        $note->user_id = $request->user_id;
 
         if ($note->save()) {
             return new NoteResource($note);
