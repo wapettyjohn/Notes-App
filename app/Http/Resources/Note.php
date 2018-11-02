@@ -17,7 +17,8 @@ class Note extends JsonResource
         return [
             'id'   => $this->id,
             'note' => $this->note,
-            'color'=> $this->color
+            'color'=> $this->color,
+            'updated_at' => $this->updated_at
         ];
     }
 }

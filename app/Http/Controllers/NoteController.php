@@ -22,7 +22,6 @@ class NoteController extends Controller
         return NoteResource::collection($notes);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
