@@ -47399,6 +47399,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -47412,7 +47425,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         updated_at: ''
       },
       note_id: '',
-      //pagination: {},
       edit: false
     };
   },
@@ -47515,39 +47527,57 @@ var render = function() {
     _c("div", { staticClass: "left-col" }, [
       _c(
         "div",
-        { staticClass: "notes container" },
+        { staticClass: "notes" },
         _vm._l(_vm.notes, function(note) {
-          return _c("div", { key: note.id, staticClass: "card card-body" }, [
-            _c("span", { staticClass: "card-text" }, [
-              _vm._v(_vm._s(note.updated_at["date"]))
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-secondary",
-                on: {
-                  click: function($event) {
-                    _vm.editNote(note)
+          return _c(
+            "div",
+            {
+              key: note.id,
+              staticClass: "note",
+              class: {
+                "alert-light": note.color === "light",
+                "alert-dark": note.color === "dark",
+                "alert-warning": note.color === "warning",
+                "alert-info": note.color === "info",
+                "alert-success": note.color === "success",
+                "alert-primary": note.color === "primary",
+                "alert-secondary": note.color === "secondary",
+                "alert-danger": note.color === "danger"
+              }
+            },
+            [
+              _c(
+                "span",
+                {
+                  staticClass: "note-date",
+                  attrs: { role: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.editNote(note)
+                    }
                   }
-                }
-              },
-              [_vm._v("Edit")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    _vm.deleteNote(note.id)
+                },
+                [
+                  _vm._v(
+                    "\n          " + _vm._s(note.updated_at) + "\n        "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary delete-note",
+                  on: {
+                    click: function($event) {
+                      _vm.deleteNote(note.id)
+                    }
                   }
-                }
-              },
-              [_vm._v("Delete")]
-            )
-          ])
+                },
+                [_vm._v("Delete")]
+              )
+            ]
+          )
         })
       )
     ]),
@@ -47556,7 +47586,7 @@ var render = function() {
       _c(
         "form",
         {
-          staticClass: "form container",
+          staticClass: "form",
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -47575,7 +47605,7 @@ var render = function() {
                   expression: "note.note"
                 }
               ],
-              staticClass: "form-control",
+              staticClass: "form-control note-form-textarea",
               class: {
                 "alert-light": _vm.note.color === "light",
                 "alert-dark": _vm.note.color === "dark",
@@ -47586,7 +47616,7 @@ var render = function() {
                 "alert-secondary": _vm.note.color === "secondary",
                 "alert-danger": _vm.note.color === "danger"
               },
-              attrs: { placeholder: "Note" },
+              attrs: { placeholder: "Add your note here..." },
               domProps: { value: _vm.note.note },
               on: {
                 input: function($event) {
@@ -47599,9 +47629,7 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c("label", { attrs: { for: "inputColor" } }, [_vm._v("Color")]),
-            _vm._v(" "),
+          _c("div", { staticClass: "form-group note-form-controls row" }, [
             _c(
               "select",
               {
@@ -47613,7 +47641,7 @@ var render = function() {
                     expression: "note.color"
                   }
                 ],
-                staticClass: "form-control",
+                staticClass: "input-color form-control",
                 attrs: { id: "inputColor" },
                 on: {
                   change: function($event) {
@@ -47634,7 +47662,7 @@ var render = function() {
                 }
               },
               [
-                _c("option", { attrs: { value: "secondary" } }, [
+                _c("option", { attrs: { value: "secondary", selected: "" } }, [
                   _vm._v("Gray")
                 ]),
                 _vm._v(" "),

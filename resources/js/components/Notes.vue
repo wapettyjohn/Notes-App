@@ -1,43 +1,56 @@
 <template>
   <div class="wrapper">
     <div class="left-col">
-      <div class="notes container">
-        <div 
-          class="card card-body" 
+      <div class="notes">
+        <div
+          class="note"
           v-for="note in notes" 
-          v-bind:key="note.id">
-          <span class="card-text">{{ note.updated_at['date'] }}</span>
+          v-bind:key="note.id"
+          v-bind:class="{
+              'alert-light': (note.color === 'light'),
+              'alert-dark': (note.color === 'dark'),
+              'alert-warning': (note.color === 'warning'),
+              'alert-info': (note.color === 'info'),
+              'alert-success': (note.color === 'success'),
+              'alert-primary': (note.color === 'primary'),
+              'alert-secondary': (note.color === 'secondary'),
+              'alert-danger': (note.color === 'danger'),
+            }">
+          <span 
+            class="note-date"
+            role="button" 
+            @click="editNote(note)">
+            {{ note.updated_at }}
+          </span>
 
-          <button @click="editNote(note)" class="btn btn-outline-secondary">Edit</button>
-          <button @click="deleteNote(note.id)" class="btn btn-primary">Delete</button>
-        </div> <!-- .card -->
+          <button @click="deleteNote(note.id)" class="btn btn-primary delete-note">Delete</button>
+        </div>
       </div> <!-- .notes -->
     </div>
 
     <div class="right-col">
-      <form @submit.prevent="addNote" class="form container">
+      <form @submit.prevent="addNote" class="form">
         <div class="form-group note-form-group row">
           <textarea 
-            class="form-control" 
-            placeholder="Note" 
+            class="form-control note-form-textarea" 
+            placeholder="Add your note here..." 
             v-model="note.note"
             v-bind:class="{
-            'alert-light': (note.color === 'light'),
-            'alert-dark': (note.color === 'dark'),
-            'alert-warning': (note.color === 'warning'),
-            'alert-info': (note.color === 'info'),
-            'alert-success': (note.color === 'success'),
-            'alert-primary': (note.color === 'primary'),
-            'alert-secondary': (note.color === 'secondary'),
-            'alert-danger': (note.color === 'danger'),
-          }" >
+              'alert-light': (note.color === 'light'),
+              'alert-dark': (note.color === 'dark'),
+              'alert-warning': (note.color === 'warning'),
+              'alert-info': (note.color === 'info'),
+              'alert-success': (note.color === 'success'),
+              'alert-primary': (note.color === 'primary'),
+              'alert-secondary': (note.color === 'secondary'),
+              'alert-danger': (note.color === 'danger'),
+            }">
           </textarea>
         </div>
 
-        <div class="form-group row">
-          <label for="inputColor">Color</label>
-          <select id="inputColor" class="form-control" v-model="note.color">
-            <option value="secondary">Gray</option>
+        <div class="form-group note-form-controls row">
+          <select id="inputColor" class="input-color form-control" v-model="note.color">
+            <option value="secondary" selected>Gray</option>
             <option value="dark">Black</option>
             <option value="light">White</option>
             <option value="primary">Red</option>
@@ -68,7 +81,6 @@ export default {
         updated_at: ''
       },
       note_id: '',
-      //pagination: {},
       edit: false
     };
   },

@@ -5,12 +5,8 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+button.btn {
+  border-radius: 0; 
 }
 
 div.app {
@@ -18,29 +14,99 @@ div.app {
 }
 
 nav.navbar {
-  position: relative;
   z-index: 1;
+  border-top: none;
+  display: flex;
+  align-items: normal;
+  padding: 1em;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
+
+ul.navbar-nav {
+  //width: 77%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;  
+
+  li {
+    margin-left: 1em;    
+  }
+}
+
+div.dropdown-menu-right {
+  border: none;
+  text-align: right;
+}
+
 main.main {
   height: 100%;
   position: relative;
-  top: -61px;
-  padding-top: 61px;
+  //top: -80px;
+  padding-top: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  position: static !important; 
 }
 
 div.wrapper {
   display: flex;
   height: 100%;
+  width: 100%;
+}
+
+select.input-color {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: #eee;
+  height: 50%;
+
+  &:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #eee;   
+  }
 }
 
 div.left-col {
   width: 38%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  text-align: center;
+  border-right: 1px solid #eee;
 
-  div.notes div.card {
-    padding: 0;
+  div.note {
+    display: flex;
+  } 
+
+  span.note-date {
+    cursor: pointer;
+    width: 81%;
+    padding: 1em; 
   }
+
+  button.delete-note {
+    width: 19%;
+    border-radius: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+div.navbar-collapse {
+  text-align: right;
+  display: contents;
 }
 
 div.right-col {
@@ -49,12 +115,35 @@ div.right-col {
   
   form {
     height: 100%;
+
+    button.btn {
+      height: 50%;
+      border: none;
+      border-radius: 0;
+      width: 50%;      
+    }
     
+    div.note-form-controls {
+      height: 19%;
+    }  
+      
     div.note-form-group {
       height: 81%;
     }
 
-    .row {
+    textarea.note-form-textarea {
+      resize: none;
+      border: none;
+      overflow: auto;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 1em;
+    }
+
+    div.row {
       margin: 0;
     }
   }
