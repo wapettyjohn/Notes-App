@@ -18,7 +18,7 @@ class Note extends JsonResource
             'id'   => $this->id,
             'note' => $this->note,
             'color'=> $this->color,
-            'updated_at' => $this->updated_at
+            'updated_at' => date('F jS, Y, g:ia', strtotime($this->updated_at))
         ];
     }
 }
