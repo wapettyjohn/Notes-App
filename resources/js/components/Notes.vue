@@ -50,7 +50,7 @@
 
         <div class="form-group note-form-controls row">
           <select id="inputColor" class="input-color form-control" v-model="note.color">
-            <option value="secondary" selected>Gray</option>
+            <option value="secondary" selected="true">Gray</option>
             <option value="dark">Black</option>
             <option value="light">White</option>
             <option value="primary">Red</option>
@@ -76,7 +76,7 @@ export default {
       note: {
         id: '',
         note: '',
-        color: '',
+        color: 'secondary',
         user_id: window.Laravel.userId,
         updated_at: ''
       },
@@ -155,7 +155,7 @@ export default {
       this.note.id      = null;
       this.note.note_id = null;
       this.note.note    = '';
-      this.note.color   = '';
+      this.note.color   = 'secondary';
     }
   }
 };

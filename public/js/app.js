@@ -47420,7 +47420,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       note: {
         id: '',
         note: '',
-        color: '',
+        color: 'secondary',
         user_id: window.Laravel.userId,
         updated_at: ''
       },
@@ -47510,7 +47510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.note.id = null;
       this.note.note_id = null;
       this.note.note = '';
-      this.note.color = '';
+      this.note.color = 'secondary';
     }
   }
 });
@@ -47662,9 +47662,11 @@ var render = function() {
                 }
               },
               [
-                _c("option", { attrs: { value: "secondary", selected: "" } }, [
-                  _vm._v("Gray")
-                ]),
+                _c(
+                  "option",
+                  { attrs: { value: "secondary", selected: "true" } },
+                  [_vm._v("Gray")]
+                ),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "dark" } }, [_vm._v("Black")]),
                 _vm._v(" "),
